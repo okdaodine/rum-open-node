@@ -62,7 +62,7 @@ async function get(ctx) {
 async function list(ctx) {
   await db.read();
   const groups = db.data.groups.filter(group => group.userId === ctx.verification.userId);
-  ctx.body = groups.sort((a, b) => a.lastUpdated < b.lastUpdated);
+  ctx.body = groups.sort((a, b) => a.lastUpdated > b.lastUpdated);
 }
 
 async function remove(ctx) {
