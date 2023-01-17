@@ -97,7 +97,7 @@ export default observer(() => {
                 </div>
                 <div className="mt-[15px] flex items-center cursor-pointer text-orange-400">
                   <div className="flex items-center text-12 opacity-60">
-                    Last Updated at {moment(group.lastUpdated).format('yyyy-MM-DD HH:mm')}
+                    Last updated at {moment(group.lastUpdated).format('yyyy-MM-DD HH:mm')}
                   </div>
                 </div>
               </div>
