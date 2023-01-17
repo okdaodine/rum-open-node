@@ -1,5 +1,11 @@
+const fs = require('fs');
 const { Low, JSONFile } = require('@commonify/lowdb');
-const db = new Low(new JSONFile('db.json'));
+
+if (!fs.existsSync('database')){
+  fs.mkdirSync('database');
+}
+
+const db = new Low(new JSONFile('./database/db.json'));
 module.exports = db;
 
 (async () => {

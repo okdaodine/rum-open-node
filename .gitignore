@@ -27,7 +27,7 @@ server/localStorage
 
 debug.log
 
-server/db.json
+server/database/db.json
 server/build
 
 config.js
