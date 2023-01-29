@@ -2,13 +2,17 @@ import request from 'request';
 import { API_BASE_URL } from './common';
 import { IGroup } from './types';
 
+interface ICreatePayload {
+  groupName: string
+  appKey: string
+  encryptionType: string
+}
+
 export default {
-  async create(groupName: string) {
+  async create(payload: ICreatePayload) {
     const res: IGroup = await request(`${API_BASE_URL}/groups`, {
       method: 'POST',
-      body: {
-        groupName
-      }
+      body: payload
     });
     return res;
   },

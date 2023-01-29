@@ -16,9 +16,9 @@ async function create(ctx) {
   try {
     const res = await axios.post(`${config.node.origin}/api/v1/group`, {
       group_name: ctx.request.body.groupName,
-      consensus_type: 'poa',
-      encryption_type: 'public',
-      app_key: 'group_timeline',
+      app_key: ctx.request.body.appKey,
+      encryption_type: ctx.request.body.encryptionType,
+      consensus_type: 'poa'
     }, {
       headers: {
         Authorization: `Bearer ${config.node.jwt}`,

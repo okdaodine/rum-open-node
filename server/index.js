@@ -26,7 +26,6 @@ const { assert, Errors } = require('./utils/validator');
 
 assert(config.node, Errors.ERR_IS_REQUIRED('config.node'));
 assert(config.node.origin, Errors.ERR_IS_REQUIRED('config.node.origin'));
-assert(config.node.jwt, Errors.ERR_IS_REQUIRED('config.node.jwt'));
 assert(config.github, Errors.ERR_IS_REQUIRED('config.github'));
 assert(config.github.client_id, Errors.ERR_IS_REQUIRED('config.github.client_id'));
 assert(config.github.client_secret, Errors.ERR_IS_REQUIRED('config.github.client_secret'));
