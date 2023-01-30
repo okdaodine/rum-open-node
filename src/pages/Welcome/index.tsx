@@ -7,11 +7,11 @@ export default observer(() => (
   <div className="text-[28px] w-[1000px] mx-auto pt-20 text-white/80 ">
     <img src="/logo.svg" alt="logo" className="w-[50px] mx-auto opacity-90" />
     <div className="text-[46px] font-extrabold text-orange-400 text-center leading-tight pt-8">
-      Rapidly use quorum groups <br />without running quorum node by yourself.
+      Rapidly use quorum groups <br />without running a quorum node by yourself.
     </div>
 
     <div className="text-slate-400 mt-8 text-[22px] text-center w-[550px] mx-auto leading-normal">
-      It is so easy to create groups on the open quorum node that hosted by <span className="text-orange-400/70">node.rumsystem.net</span>
+      It is very easy to create groups on the open quorum node that are hosted by <span className="text-orange-400/70">node.rumsystem.net</span>
     </div>
 
     <div className="py-3 px-4 rounded-xl opacity-50 mt-5 text-14 flex items-center leading-none justify-center">
