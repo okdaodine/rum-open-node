@@ -80,7 +80,7 @@ const Main = observer((props: IModalProps) => {
   return (
     <Modal open={state.open} onClose={() => handleClose(false)}>
       <div className="h-[90vh] overflow-y-auto  p-8 px-5 md:px-10 box-border">
-        <div className="w-full md:w-[455px]">
+        <div className="w-full md:w-[540px]">
           {state.loading && (
             <div className="py-32">
               <Loading />
@@ -90,10 +90,10 @@ const Main = observer((props: IModalProps) => {
             <div>
               <div className="text-18 font-bold dark:text-white dark:text-opacity-80 text-gray-700 text-center">
                 <div className="flex items-center justify-center">
-                  {state.group.raw.groupName}
+                  {state.group.raw.group_name}
                 </div>
                 <div className="mt-1 text-12 opacity-40">
-                  {state.group.raw.groupId}
+                  {state.group.raw.group_id}
                 </div>
               </div>
               <div className="mt-8">

@@ -17,7 +17,7 @@ module.exports = async () => {
       db.data.groups = db.data.groups.map(group => {
         const remoteGroup = groupMap[group.raw.groupId];
         if (remoteGroup) {
-          group.lastUpdated = Math.round(remoteGroup.last_updated / 1000000);
+          group.raw = remoteGroup;
         }
         return group;
       });

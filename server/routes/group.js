@@ -1,7 +1,6 @@
 const router = require('koa-router')();
 const config = require('../config');
 const { assert, Errors, throws } = require('../utils/validator');
-const SDK = require('rum-sdk-nodejs');
 const db = require('../utils/db');
 const { ensurePermission } = require('../middleware/api');
 const sleep = require('../utils/sleep');
@@ -16,7 +15,7 @@ const client = RumFullNodeClient(config.node);
 
 async function create(ctx) {
   try {
-    const { seed } = await client.Group.create({
+    const { seed, group_id } = await client.Group.create({
       group_name: ctx.request.body.groupName,
       app_key: ctx.request.body.appKey,
       encryption_type: ctx.request.body.encryptionType,
@@ -24,8 +23,9 @@ async function create(ctx) {
     });
     await sleep(2000);
     assert(seed, Errors.ERR_NOT_FOUND('seed'));
-    const rawGroup = SDK.utils.seedUrlToGroup(seed);
-    delete rawGroup.chainAPIs;
+    const { groups } = await client.Group.list();
+    const rawGroup = groups.find(group => group.group_id === group_id);
+    assert(rawGroup, Errors.ERR_NOT_FOUND('rawGroup'));
     const group = {
       userId: ctx.verification.userId,
       lastUpdated: Date.now(),
@@ -44,7 +44,7 @@ async function create(ctx) {
 
 async function get(ctx) {
   await db.read();
-  const group = db.data.groups.find(group => group.userId === ctx.verification.userId && ctx.params.groupId === group.raw.groupId);
+  const group = db.data.groups.find(group => group.userId === ctx.verification.userId && ctx.params.groupId === group.raw.group_id);
   assert(group, Errors.ERR_NOT_FOUND('group'));
   ctx.body = group;
 }
@@ -57,10 +57,10 @@ async function list(ctx) {
 
 async function remove(ctx) {
   await db.read();
-  const group = db.data.groups.find(group => group.userId === ctx.verification.userId && ctx.params.groupId === group.raw.groupId);
+  const group = db.data.groups.find(group => group.userId === ctx.verification.userId && ctx.params.groupId === group.raw.group_id);
   assert(group, Errors.ERR_NOT_FOUND('group'));
-  await client.Group.leave(group.raw.groupId);
-  const groups = db.data.groups.filter(group => ctx.params.groupId !== group.raw.groupId);
+  await client.Group.leave(group.raw.group_id);
+  const groups = db.data.groups.filter(group => ctx.params.groupId !== group.raw.group_id);
   db.data.groups = groups;
   await db.write();
   ctx.body = true;

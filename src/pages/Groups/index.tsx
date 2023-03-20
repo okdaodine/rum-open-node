@@ -41,8 +41,8 @@ export default observer(() => {
         const groups = await GroupApi.list();
         runInAction(() => {
           for (const group of groups) {
-            state.idSet.add(group.raw.groupId);
-            state.map[group.raw.groupId] = group;
+            state.idSet.add(group.raw.group_id);
+            state.map[group.raw.group_id] = group;
           }
         });
       } catch (err) {
@@ -88,11 +88,11 @@ export default observer(() => {
       <div className="w-full md:w-[400px] mx-auto pt-10">
         <div className="px-4 md:px-0 py-6 md:py-12">
           {state.groups.map(group => (
-            <div className="bg-white dark:bg-[#181818] rounded-full shadow-xl w-full flex justify-between items-center pt-5 pb-5 px-8 md:px-10 border border-white md:border-opacity-[0.15] leading-none mb-8" key={group.raw.groupId}>
+            <div className="bg-white dark:bg-[#181818] rounded-full shadow-xl w-full flex justify-between items-center pt-5 pb-5 px-8 md:px-10 border border-white md:border-opacity-[0.15] leading-none mb-8" key={group.raw.group_id}>
               <div>
                 <div className="flex items-center">
                   <span className="font-bold text-18 md:text-20 dark:text-white dark:text-opacity-80 text-gray-33 tracking-wider truncate max-w-[180px] md:max-w-[280px]">
-                    {group.raw.groupName}
+                    {group.raw.group_name}
                   </span>
                 </div>
                 <div className="mt-[15px] flex items-center cursor-pointer text-orange-400">
@@ -102,11 +102,11 @@ export default observer(() => {
                 </div>
               </div>
               <Button size='small' color="orange" onClick={async () => {
-                const result = await openGroupInfo(group.raw.groupId);
+                const result = await openGroupInfo(group.raw.group_id);
                 if (result === 'removed') {
                   await sleep(500);
-                  state.idSet.delete(group.raw.groupId);
-                  delete state.map[group.raw.groupId];
+                  state.idSet.delete(group.raw.group_id);
+                  delete state.map[group.raw.group_id];
                   await sleep(300);
                   snackbarStore.show({
                     message: 'removed',
@@ -131,8 +131,8 @@ export default observer(() => {
             open={state.openAddGroupModal}
             onClose={() => state.openAddGroupModal = false}
             addGroup={group => {
-              state.idSet.add(group.raw.groupId);
-              state.map[group.raw.groupId] = group;
+              state.idSet.add(group.raw.group_id);
+              state.map[group.raw.group_id] = group;
             }}
           />
         </div>
