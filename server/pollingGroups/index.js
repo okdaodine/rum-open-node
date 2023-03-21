@@ -15,9 +15,10 @@ module.exports = async () => {
       console.log(`${moment().format('HH:mm')} Polled ${groups.length} groups`);
       await db.read();
       db.data.groups = db.data.groups.map(group => {
-        const remoteGroup = groupMap[group.raw.groupId];
+        const remoteGroup = groupMap[group.raw.group_id];
         if (remoteGroup) {
           group.raw = remoteGroup;
+          group.lastUpdated = remoteGroup.last_updated;
         }
         return group;
       });
