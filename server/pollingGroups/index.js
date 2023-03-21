@@ -18,7 +18,7 @@ module.exports = async () => {
         const remoteGroup = groupMap[group.raw.group_id];
         if (remoteGroup) {
           group.raw = remoteGroup;
-          group.lastUpdated = remoteGroup.last_updated;
+          group.lastUpdated = Math.round(remoteGroup.last_updated / 1000000);
         }
         return group;
       });
