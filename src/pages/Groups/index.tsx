@@ -5,7 +5,7 @@ import { useStore } from 'store';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import { RiAddFill } from 'react-icons/ri';
 import AddGroupModal from './addGroupModal';
-import { GroupApi } from 'apis';
+import { GroupApi, PingApi } from 'apis';
 import { IGroup } from 'apis/types';
 import sleep from 'utils/sleep';
 import classNames from 'classnames';
@@ -21,6 +21,7 @@ export default observer(() => {
     loading: true,
     idSet: new Set() as Set<string>,
     map: {} as Record<string, IGroup>,
+    disconnected: false,
     get groups() {
       return Array.from(this.idSet).map(id => this.map[id]);
     },
@@ -32,6 +33,20 @@ export default observer(() => {
       store('token', token);
       Query.remove('token');
     }
+  }, []);
+
+  React.useEffect(() => {
+    (async () => {
+      await sleep(300);
+      try {
+        const pong = await PingApi.ping();
+        if (!pong) {
+          state.disconnected = true;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    })();
   }, []);
 
   React.useEffect(() => {
@@ -62,8 +77,8 @@ export default observer(() => {
 
   return (
     <div>
-      <div className="fixed top-0 left-0 h-[40px] md:h-[42px] flex items-center justify-center w-screen bg-white dark:bg-[#181818] border-b dark:border-white dark:md:border-opacity-10 dark:border-opacity-[0.05] border-neutral-100">
-        <div className="w-[600px] flex items-center justify-between">
+      <div className="fixed top-0 left-0 h-[40px] md:h-[42px] w-screen bg-white dark:bg-[#181818] border-b dark:border-white dark:md:border-opacity-10 dark:border-opacity-[0.05] border-neutral-100">
+        <div className="w-[600px] mx-auto flex items-center justify-between">
           <img src="/logo.svg" alt="logo" className="w-[20px] opacity-90" />
           <div className="flex items-center">
             <a
@@ -84,6 +99,11 @@ export default observer(() => {
             }}>Sign out</span>
           </div>
         </div>
+        {state.disconnected && (
+          <div className="w-full bg-red-400 text-center py-1">
+            Server Disconnected
+          </div>
+        )}
       </div>
       <div className="w-full md:w-[400px] mx-auto pt-10">
         <div className="px-4 md:px-0 py-6 md:py-12">

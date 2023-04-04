@@ -60,6 +60,8 @@ async function remove(ctx) {
   const group = db.data.groups.find(group => group.userId === ctx.verification.userId && ctx.params.groupId === group.raw.group_id);
   assert(group, Errors.ERR_NOT_FOUND('group'));
   await client.Group.leave(group.raw.group_id);
+  await sleep(1000);
+  await client.Group.clear(group.raw.group_id);
   const groups = db.data.groups.filter(group => ctx.params.groupId !== group.raw.group_id);
   db.data.groups = groups;
   await db.write();

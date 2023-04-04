@@ -13,6 +13,7 @@ const session = require('koa-session');
 const user = require('./routes/user');
 const group = require('./routes/group');
 const github = require('./routes/github');
+const ping = require('./routes/ping');
 
 const pollingGroups = require('./pollingGroups');
 
@@ -63,6 +64,7 @@ router.use('/favicon.ico', async (ctx) => ctx.body = true);
 router.use('/api/users', user.routes(), user.allowedMethods());
 router.use('/api/groups', group.routes(), group.allowedMethods());
 router.use('/api/github', github.routes(), github.allowedMethods());
+router.use('/api/ping', ping.routes(), ping.allowedMethods());
 
 router.use('(.*)', async ctx => ctx.render('index'));
 
