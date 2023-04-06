@@ -19,7 +19,8 @@ async function create(ctx) {
       group_name: ctx.request.body.groupName,
       app_key: ctx.request.body.appKey,
       encryption_type: ctx.request.body.encryptionType,
-      consensus_type: 'poa'
+      consensus_type: 'poa',
+      include_chain_url: true
     });
     await sleep(2000);
     assert(seed, Errors.ERR_NOT_FOUND('seed'));
